@@ -1,11 +1,76 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>BERTSum Tutorial</title>
-  </head>
-  <body>
-    <h1>BERTSum</h1>
-    <h2>By Varun Sai Sowjith Yerraboina</h2>
-    <p>Welcome to the BERTSum tutorial!</p>
-  </body>
+<head>
+	<title>BERTSum Tutorial for Text Summarization</title>
+      <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+	<h1>BERTSum Tutorial for Text Summarization</h1>
+
+	<h2>Introduction</h2>
+	<p>BERTSum is a pre-trained language model that has gained immense popularity in the field of natural language processing for its ability to generate high-quality summaries of long articles or documents. Summarization is a challenging task that requires identifying the main points and important details of a text while discarding redundant or irrelevant information. BERTSum tackles this problem by leveraging the power of BERT (Bidirectional Encoder Representations from Transformers), a deep learning model that has achieved state-of-the-art performance on a variety of NLP tasks. BERTSum uses a pre-trained BERT model for the encoder and a transformer-based decoder to generate summaries. It has been shown to outperform other state-of-the-art models on several benchmark datasets for summarization. With its ability to generate accurate and informative summaries that capture the main points of a given text, BERTSum is a powerful tool for automating text summarization tasks, and this tutorial will provide a step-by-step guide on how to use the tool for text summarization tasks.</p>
+
+	<h2>What is BERTSum used for?</h2>
+	<p>BERTSum is used for text summarization tasks, such as generating summaries of long articles or documents. It aims to solve the problem of generating accurate and informative summaries that capture the main points of the text.</p>
+
+	<h2>What natural languages does BERTSum support?</h2>
+	<p>BERTSum supports multiple natural languages, including English, Chinese, and Arabic, among others.</p>
+
+	<h2>Requirements</h2>
+	<p>To follow this tutorial, you will need access to a computer with Python 3 installed and the command line interface (CLI). In addition, you will need to install the following Python packages: PyTorch, TensorBoardX, pyrouge, and pytorch-pretrained-bert using pip.</p>
+
+	<pre><code>$ pip install torch
+$ pip install tensorboardX
+$ pip install pyrouge
+$ pip install pytorch-pretrained-bert
+	</code></pre>
+
+	<p>Note: The installation process may vary depending on your operating system and environment. Please refer to the package documentation for detailed installation instructions.</p>
+
+	<h2>Installation</h2>
+	<p>To install BERTSum, you will need to clone the Github repository:</p>
+
+	<pre><code>$ git clone https://github.com/nlpyang/BertSum.git</code></pre>
+
+	<p>After cloning the repository, you will need to install the required dependencies:</p>
+
+	<pre><code>$ cd BertSum && pip install -r requirements.txt</code></pre>
+
+	<h2>Usage</h2>
+	<p>To use BERTSum, you will need to fine-tune the pre-trained BERT model for summarization tasks. We will use a sample dataset of news articles to demonstrate how to fine-tune the model and generate summaries. You can download the dataset from [insert URL here] and save it in the 'data' directory.</p>
+
+	<p>The first step is to preprocess the data using the following command:</p>
+
+	<pre><code>$ python preprocess.py -mode format_to_bert -raw_path [path to raw data] -save_path [path to save preprocessed data] -bert_path [path to BERT model]</code></pre>
+
+	<p>This will preprocess the data and save it in the 'preprocessed' directory.</p>
+
+	<p>The next step is to fine-tune the BERT model using the preprocessed data:</p>
+
+	<pre><code>$ python train.py -mode train -encoder classifier -dropout 0.1 -bert_data_path [path to preprocessed data] -model_path [path to save trained model] -lr 2e-3 -visible_gpus 0,1,2,3 -gpu_ranks 0,1,2,3 -world_size 4 -report_every 50 -save_checkpoint_steps 1000 -batch_size 3000 -decay_method noam -train_steps 50000 -accum_count 2 -log_file logs/bert_classifier -use_interval true -warmup_steps 10000 -ff_size 2048 -inter_layers 2 -heads 8</code></pre>
+
+	<p>This will fine-tune the BERT model and save the trained model in the 'model' directory.</p>
+
+	<p>The final step is to generate summaries using the trained model:</p>
+
+	<pre><code>$ python train.py -mode test -encoder classifier -dropout 0.1 -bert_data_path [path to preprocessed data] -model_path [path to trained model] -result_path [path to save generated summaries] -batch_size 3000 -test_batch_size 500 -sep_optim true -use_interval true -visible_gpus 0 -max_pos 512 -max_length 200 -alpha 0.95 -min_length 50</code></pre>
+
+	<p>This will generate summaries and save them in the 'result' directory.</p>
+
+	<h2>Evaluation</h2>
+	<p>To evaluate the performance of BERTSum, we will calculate the ROUGE (Recall-Oriented Understudy for Gisting Evaluation) scores against the generated summaries. You can use the 'rouge' library to calculate the scores:</p>
+
+	<pre><code>$ pip install rouge</code></pre>
+
+	<p>After installing the 'rouge' library, you can calculate the scores using the following command:</p>
+
+	<pre><code>$ python evaluate.py</code></pre>
+
+	<p>This will calculate the ROUGE scores and print them to the console.</p>
+
+	<h2>Conclusion</h2>
+	<p>In this tutorial, we have demonstrated how to use BERTSum for text summarization tasks, including how to install and use the tool, what kind of problems it aims to solve, and how to evaluate its performance. We used a sample dataset of news articles to fine-tune the pre-trained BERT model and generate summaries. We also calculated the ROUGE scores to evaluate the quality of the generated summaries. BERTSum is a powerful tool that can help improve the efficiency and accuracy of summarizing large texts, and we hope this tutorial has been helpful in getting started with the tool.</p>
+
+</body>
 </html>
